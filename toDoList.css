@@ -1,0 +1,139 @@
+* {
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+}
+
+body {
+    margin: 0;
+    background-color: #0d0714;
+  }
+
+#toDoList {
+    position: absolute;
+    overflow-y: auto;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    margin-top: -40dvh;
+    margin-left: -291.5px;
+    padding: 50px;
+    width: 583px;
+    height: 80dvh;
+    background-color: #1d1825;
+    border-radius: 20px;
+}
+
+
+#toDoList #toDoİnput {
+    display: flex;
+    width: 100%;
+
+}
+
+#toDoList #toDoİnput input {
+    padding: 10px 15px;
+    width: 100%;
+    border: 1px solid #9e78cf;
+    border-radius: 10px;
+    outline: 0;
+    line-height: 19.36px;
+    letter-spacing: 0%;
+    color: #777777;
+}
+
+#toDoList #toDoİnput button {
+    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 11px;
+  width: 40px;
+  height: 40px;
+  background-color: #9e78cf;
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+
+#toDoList #taskList,
+#toDoList #doneList {
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+    width: 100%;
+}
+
+
+#toDoList #taskList h4,
+#toDoList #doneList h4 {
+    margin: 0;
+    line-height: 19.36px;
+    letter-spacing: 0%;
+    color: #fff;
+}
+
+#toDoList #taskList .todo-item,
+#toDoList #doneList .todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  margin-top: 16px;
+  background-color: #15101c;
+  border-radius: 10px;
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19.36px;
+  letter-spacing: 0%;
+  color: #9e78cf;
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+#toDoList #doneList .todo-item div:first-child {
+  color: #78cfb0;
+  text-decoration: line-through;
+}
+
+#toDoList #taskList .todo-item .check-delete {
+  display: flex;
+}
+
+#toDoList #taskList .todo-item .check-delete button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-left: 8px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: 0;
+    border-radius: 10px;
+}
+
+#toDoList #taskList .todo-item .check-delete button:hover {
+  background-color: #caa9f5;
+}
+
+@media screen and (max-width: 800px) {
+  #toDoList {
+    font-size: 11px;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+}
+
+
+@media screen and (max-width: 400px) {
+  #toDoList {
+    font-size: 6px;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+}

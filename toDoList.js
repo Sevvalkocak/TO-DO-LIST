@@ -1,85 +1,89 @@
-
-const toDoList = document.querySelector(".toDoList");
-const toDoİnput = document.querySelector(".toDoİnput");
 const taskList = document.querySelector(".taskList");
-const doneList = document.querySelector(".doneList"); 
+const doneList = document.querySelector(".doneList");
+const addButton = document.getElementById("addBtn");
+const input = document.getElementById("input");
 
 
+document.addEventListener("DOMContentLoaded", loadTasks);
+addButton.addEventListener("click", addTask);
 
-const button = document.getElementById("addBtn");
-button.addEventListener('click', ekle);
+function addTask() {
+    const taskText = input.value.trim();
+    if (taskText === "") return;
 
-function ekle(){
-    const input = document.getElementById("input");
-
-    if (input.value.trim() === "") {
-        return;
-    };
-
-    const madde = document.createElement("div");
-    madde.classList.add('todo-item');
-    
-    const textdiv =document.createElement('div');
-    textdiv.innerHTML = input.value;
-    madde.appendChild(textdiv);
-
-    const checkDelete = document.createElement("div");
-    checkDelete.classList.add("check-delete");
-    madde.appendChild(checkDelete);
-
-    const checkBtn = document.createElement("button");
-    checkDelete.appendChild(checkBtn);
-
-    const checkImg = document.createElement("img");
-    checkImg.src = "image/Check.svg";
-    checkBtn.appendChild(checkImg);
-
-    const deleteBtn = document.createElement("button");
-    checkDelete.appendChild(deleteBtn);
-
-    const deleteImg = document.createElement("img");
-    deleteImg.src = "image/TrashSimple.svg";
-    deleteBtn.appendChild(deleteImg);
-
-    taskList.appendChild(madde);
-
-    input.value = '';
-
-    checkBtn.addEventListener('click', function() {
-        moveToDoneList(madde);
-    });
-
-    deleteBtn.addEventListener('click', function(){
-        madde.remove();
-    });
-
+    const task = { text: taskText, completed: false };
+    saveTask(task);
+    renderTask(task);
+    input.value = "";
 }
 
-function moveToDoneList(taskItem) {
-    doneList.appendChild(taskItem);
-    taskItem.classList.add("completed");  
-    const checkBtn = taskItem.querySelector("button");
-    checkBtn.remove();
-    const deleteBtn = taskItem.querySelector("button");
-    deleteBtn.remove();
-};
 
+function renderTask(task) {
+    const taskItem = document.createElement("div");
+    taskItem.classList.add("todo-item");
 
-function addEventListenersToExistingTasks() {
-    const existingTasks = document.querySelectorAll('.todo-item');
+    const taskText = document.createElement("div");
+    taskText.textContent = task.text;
+    taskItem.appendChild(taskText);
 
-    existingTasks.forEach(task => {
-        const checkBtn = task.querySelector(".check-delete button:nth-child(1)");
-        const deleteBtn = task.querySelector(".check-delete button:nth-child(2)");
+    const actionContainer = document.createElement("div");
+    actionContainer.classList.add("check-delete");
+    taskItem.appendChild(actionContainer);
 
-        checkBtn.addEventListener('click', function () {
-            moveToDoneList(task);
+    if (!task.completed) {
+        const checkBtn = document.createElement("button");
+        const checkImg = document.createElement("img");
+        checkImg.src = "image/Check.svg";
+        checkBtn.appendChild(checkImg);
+        actionContainer.appendChild(checkBtn);
+
+        const deleteBtn = document.createElement("button");
+        const deleteImg = document.createElement("img");
+        deleteImg.src = "image/TrashSimple.svg";
+        deleteBtn.appendChild(deleteImg);
+        actionContainer.appendChild(deleteBtn);
+
+        checkBtn.addEventListener("click", () => completeTask(task.text));
+        deleteBtn.addEventListener("click", () => {
+            removeTask(task.text);
+            taskItem.remove();
         });
 
-        deleteBtn.addEventListener('click', function () {
-            task.remove();
-        });
-    });
+        taskList.appendChild(taskItem);
+    } else {
+        taskItem.classList.add("completed");
+        doneList.appendChild(taskItem);
+    }
 }
 
-window.addEventListener('DOMContentLoaded', addEventListenersToExistingTasks);
+function completeTask(taskText) {
+    removeTask(taskText);
+    saveTask({ text: taskText, completed: true });
+
+    document.querySelectorAll(".todo-item").forEach(item => {
+        if (item.textContent.includes(taskText)) {
+            item.remove();
+        }
+    });
+
+    renderTask({ text: taskText, completed: true });
+}
+
+function saveTask(task) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+
+function removeTask(taskText) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks = tasks.filter(task => task.text !== taskText);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+
+function loadTasks() {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.forEach(task => renderTask(task));
+}

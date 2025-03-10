@@ -121,8 +121,11 @@ body {
   #toDoList {
     font-size: 11px;
     width: 70%;
+    display: flex;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
+    margin: 0 auto; 
   }
   
 }
@@ -130,10 +133,13 @@ body {
 
 @media screen and (max-width: 400px) {
   #toDoList {
-    font-size: 6px;
-    width: 40%;
+    font-size: 3vw; 
+    width: 80%;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
   }
   
 }
